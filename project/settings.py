@@ -24,6 +24,10 @@ load_dotenv()
 LASTFM_API_KEY = os.getenv("LASTFM_API_KEY")
 LASTFM_API_SECRET = os.getenv("LASTFM_API_SECRET")
 
+# staticファイルの設定
+STATIC_URL = '/static/'
+STATIFILES_DIRS = [os.path.join(BASE_DIR, 'mynotes_app/static')]
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/

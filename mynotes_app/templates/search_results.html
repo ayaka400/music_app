@@ -12,11 +12,14 @@
 
         {% if tracks %}
             {% for track in tracks %}
-                <div class="track">
-                    <img src="{{ track.image }}" alt="{{ track.name }}">
+                <div class="track" style="margin-bottom: 2rem;">
                     <div>
-                        <strong>{{ track.name }}</strong><br>
-                        <small>{{ track.artist }}</small>
+                        <h3>{{ track.name }} - {{ track.artist }}</h3>
+                        <img src="{{ track.image }}" alt="ジャケット" width="150">
+                        <p><strong>再生回数：</strong> {{ track.playcount }} </p>
+                        <p><strong>タグ：</strong> {{track.tags|join:"," }} </p>
+                        <p><strong>公開日：</strong> {{ track.published }} </p>
+                        <p><strong>概要：</strong> {{ track.summary|safe }} </p>
                     </div>
                 </div>
             {% endfor %}
