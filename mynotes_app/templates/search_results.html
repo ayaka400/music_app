@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>トラック検索結果</title>
+        <style>
+            
+        </style>
+    </head>
+    <body>
+        <h1>「{{ query }}」の検索結果</h1>
+
+        {% if tracks %}
+            {% for track in tracks %}
+                <div class="track">
+                    <img src="{{ track.image }}" alt="{{ track.name }}">
+                    <div>
+                        <strong>{{ track.name }}</strong><br>
+                        <small>{{ track.artist }}</small>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>曲が見つかりませんでした。</p>
+        {% endif %}
+    <body>
+</html>
