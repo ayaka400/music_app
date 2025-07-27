@@ -15,6 +15,7 @@ def get_track_info(track_name, artist_name, mbid=None):
         'api_key': settings.LASTFM_API_KEY,
         'format': 'json',
         'autocorrect': 1, # スペルミスを自動修正
+        #'lang': 'ja',
     }
 
     if mbid:
