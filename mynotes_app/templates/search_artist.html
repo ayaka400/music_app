@@ -1,11 +1,24 @@
-<h2>「{{ query }}」の検索結果</h2>
-<ul>
-    {% for artist in artists %}
-        <li>
-            <strong>{{ artist.name }}</strong><br>
-            <a href="{{ artist.url }}" target="_brank">Last.fmで見る</a>
-        </li>
-    {% empty %}
-        <li>アーティストは見つかりませんでした。</li>
-    {% endfor %}
-</ul>
+<h1>「{{ query }}」の検索結果</h1>
+
+{% for artist in artists %}
+  <div style="margin-bottom: 30px;">
+    <h2>
+      <a href="{{ artist.url }}" target="_blank">{{ artist.name }}</a>
+    </h2>
+
+    {% if artist.top_tracks %}
+      <ul style="list-style:none; padding: 0;">
+        {% for track in artist.top_tracks %}
+          <li style="display: flex; align-items: center; margin-bottom: 10px;">
+            {% if track.image %}
+              <img src="{{ track.image }}" alt="{{ track.track_name }}" width="64" height="64" style="margin-right: 10px;">
+            {% endif %}
+            <a href="{{ track.url }}">{{ track.track_name }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>代表曲は見つかりませんでした。</p>
+    {% endif %}
+  </div>
+{% endfor %}
