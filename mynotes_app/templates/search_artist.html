@@ -1,0 +1,11 @@
+<h2>「{{ query }}」の検索結果</h2>
+<ul>
+    {% for artist in artists %}
+        <li>
+            <strong>{{ artist.name }}</strong><br>
+            <a href="{{ artist.url }}" target="_brank">Last.fmで見る</a>
+        </li>
+    {% empty %}
+        <li>アーティストは見つかりませんでした。</li>
+    {% endfor %}
+</ul>

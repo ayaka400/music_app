@@ -3,11 +3,7 @@ from django.http import JsonResponse
 from project import settings
 from django.shortcuts import render
 from django.templatetags.static import static
-
-# 楽曲画像がなかった場合のデフォルト
-DEFAULT_IMAGE = static('images/default.png')
-# APIのRoot URL
-API_URL  = 'http://ws.audioscrobbler.com/2.0/'
+import config.constants as const 
 
 def get_track_info(track_name, artist_name, mbid=None):
     params = {
@@ -25,7 +21,7 @@ def get_track_info(track_name, artist_name, mbid=None):
         params['artist'] = artist_name
 
     try:
-        res = requests.get(API_URL, params=params)
+        res = requests.get(const.API_URL, params=params)
         track = res.json().get('track', {})
 
         tags = [tag['name'] for tag in track.get('toptags', {}).get('tag', [])]
@@ -33,7 +29,7 @@ def get_track_info(track_name, artist_name, mbid=None):
 
         image_list = track.get('album', {}).get('image', [])
         image_url = image_list[-1]['#text'] if image_list else ''
-        image = image_url if image_url else DEFAULT_IMAGE
+        image = image_url if image_url else const.DEFAULT_IMAGE
 
         return {
             'name': track.get('name'),
@@ -54,7 +50,7 @@ def get_track_info(track_name, artist_name, mbid=None):
             'name': track_name,
             'artist': artist_name,
             'mbid': mbid,
-            'image': DEFAULT_IMAGE,
+            'image': const.DEFAULT_IMAGE,
             'url': '',
             'playcount': '',
             'tags': [],
@@ -68,7 +64,7 @@ def search_track(request):
     # GETリクエストからパラメーター(曲名)を抜きだしてqueryに格納
     query = request.GET.get('q', '')
     if not query:
-        return render(request, "search_results.html", {"tracks": [], "query": ""})
+        return render(request, "search_track.html", {"tracks": [], "query": ""})
 
     # 埋め込みたいパラメーターを辞書で作成
     params = {
@@ -80,7 +76,7 @@ def search_track(request):
     }
 
     # URLにクエリパラメーターを埋め込んで送信
-    response = requests.get(API_URL, params=params)
+    response = requests.get(const.API_URL, params=params)
 
     # 応答結果をdataに格納
     data = response.json()
@@ -100,4 +96,4 @@ def search_track(request):
         detailed = get_track_info(name, artist, mbid)
         tracks.append(detailed)
 
-    return render(request, "search_results.html", {"tracks": tracks, "query": query})
+    return render(request, "search_track.html", {"tracks": tracks, "query": query})
