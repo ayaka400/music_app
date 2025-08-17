@@ -17,7 +17,7 @@ def get_top_tracks(artist_name):
     }
 
     try:
-        res = requests.get(const.API_URL, params=params)
+        res = requests.get(const.API_URL, params=params, timeout=(3, 10))
         tracks = res.json().get('toptracks', {}).get('track', [])
 
         result = []
@@ -51,11 +51,11 @@ def search_artist(request):
         'artist': query,
         'api_key': settings.LASTFM_API_KEY,
         'format': 'json',
-        'limit': 10,
+        'limit': 4,
         'autocorrect': 1,
     }
 
-    response = requests.get(const.API_URL, params=params)
+    response = requests.get(const.API_URL, params=params, timeout=(3, 10))
     data = response.json()
 
     # 検索ワードに該当するアーティスト一覧

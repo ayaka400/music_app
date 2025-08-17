@@ -15,16 +15,37 @@
                 <div class="track" style="margin-bottom: 2rem;">
                     <div>
                         <h3>{{ track.name }} - {{ track.artist }}</h3>
-                        <img src="{{ track.image }}" alt="ジャケット" width="150">
+                        <img src="{{ track.image }}" alt="{{ track.name }}" width="150">
                         <p><strong>再生回数：</strong> {{ track.playcount }} </p>
                         <p><strong>タグ：</strong> {{track.tags|join:"," }} </p>
                         <p><strong>公開日：</strong> {{ track.published }} </p>
                         <p><strong>概要：</strong> {{ track.summary|safe }} </p>
+
+                        <!-- 詳細ページへのリンク-->
+                        <p>
+                            <a href="{% url 'track_detail' track.name track.artist %}">曲の詳細</a>
+                        </p>
+
+
+                        {% if track.similar_tracks %}
+                        <h4>楽曲の詳細情報：</h4>
+                        <ul style="list-style:none; padding:0;">
+                            {% for sim in track.similar_tracks %}
+                                <li style="display: inline-block; margin-right: 10x; text-align: center;">
+                                    <a href="{{ sim.url }}" target="_blank">
+                                        <img src="{{ sim.image }}" alt="{{ sim.name }}" style="width: 60px; height: 60px;"><br>
+                                        <small>{{ sim.name }}<br>{{ sim.artist }}</small>
+                                    </a>
+                                </li>
+                            {% endfor %} 
+                        </ul>
+                        {% endif %}
                     </div>
                 </div>
+                <hr>
             {% endfor %}
         {% else %}
             <p>曲が見つかりませんでした。</p>
         {% endif %}
-    <body>
+    </body>
 </html>

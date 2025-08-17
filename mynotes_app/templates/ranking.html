@@ -1,0 +1,31 @@
+<body>
+    <h1>
+        {% if mode == 'geo' %}
+            {{ country }}の人気曲ランキング
+        {% else %}
+            世界の人気曲ランキング
+        {% endif %}
+    </h1>
+
+    {% if tracks %}
+        <ol>
+            {% for track in tracks %}
+                <li style="margin-bottom: 1rem;">
+                    <img src="{{ track.image }}" alt="{{ track.name }}" width="60" style="vertical-align: middle; margin-right: 10px;">
+                    <strong>{{ track.name }}</strong> - {{ track.artist }}
+                    &nbsp;|&nbsp;
+
+                    <a href="{% url 'track_detail' %}?track={{ track.name|urlencode }}&artist={{ track.artist|urlencode }}">曲の詳細</a>
+                </li>
+            {% endfor %}
+        </ol>
+    {% else %}
+        <p>ランキング情報が取得できませんでした。</p>
+    {% endif %}
+
+    <hr>
+    <p>
+        <a href="{% url 'ranking' %}?mode=geo&country=Japan">日本ランキング</a>
+        <a href="{% url 'ranking' %}?mode=global">世界ランキング</a>
+    </p>
+</body>
